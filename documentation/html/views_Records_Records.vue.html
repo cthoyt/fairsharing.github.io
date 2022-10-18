@@ -228,6 +228,12 @@ export default {
       let queryParams = {};
       Object.keys(this.$route.query).forEach(function (prop) {
         let queryVal = client.$route.query[prop];
+        console.log("QueryVal: " + queryVal);
+        if (queryVal.includes(",")) {
+          let list = queryVal.split(",").map(value => value.toLowerCase());
+          queryVal = [...new Set(list)].join(",");
+          console.log("QV is now... " + queryVal);
+        }
         if (queryVal) {
             queryParams[prop] = decodeURI(queryVal);
         }
@@ -236,6 +242,7 @@ export default {
           title = this.recordTypes[title.charAt(0).toUpperCase() + title.slice(1)]
       }
       else title = title.charAt(0).toUpperCase() + title.slice(1);
+      console.log("RV: " + JSON.stringify([title, queryParams]))
       return [title, queryParams];
     },
   },
